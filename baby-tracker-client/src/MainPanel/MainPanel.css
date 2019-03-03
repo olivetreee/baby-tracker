@@ -1,0 +1,15 @@
+.main-panel {
+	width: 100%;
+}
+
+.main-panel.feeding {
+	background-color: red;
+}
+
+.main-panel.poop {
+	background-color: brown;
+}
+
+.main-panel.pee {
+	background-color: yellow;
+}
