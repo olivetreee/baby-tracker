@@ -4,13 +4,20 @@ import NavBar from './NavBar/NavBar';
 import './App.css';
 
 class App extends Component {
+	constructor() {
+		super();
+		this.state = {
+			data: {}
+		};
+	}
+
   render() {
     return (
       <div className="App">
 				<div className="panels">
-					<MainPanel type="feeding" />
-					<MainPanel type="poop" />
-					<MainPanel type="pee" />
+					<MainPanel category="feeding" />
+					<MainPanel category="poop" />
+					<MainPanel category="pee" />
 				</div>
 				<NavBar />
       </div>
