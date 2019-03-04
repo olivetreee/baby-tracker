@@ -7,9 +7,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-				<MainPanel type="feeding" />
-				<MainPanel type="poop" />
-				<MainPanel type="pee" />
+				<div className="panels">
+					<MainPanel type="feeding" />
+					<MainPanel type="poop" />
+					<MainPanel type="pee" />
+				</div>
 				<NavBar />
       </div>
     );

@@ -6,11 +6,14 @@
 	align-items: center;
 	justify-content: center;
 	font-size: calc(10px + 2vmin);
-	color: white;
+	color: #2d3436;
 }
 
-.App-link {
-  color: #61dafb;
+.App .panels {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	width: 100%;
 }
 
 @keyframes App-logo-spin {

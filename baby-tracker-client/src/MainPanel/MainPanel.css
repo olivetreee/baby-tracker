@@ -1,15 +1,17 @@
 .main-panel {
 	width: 100%;
+	flex-grow: 1;
+	flex-basis: auto;
 }
 
 .main-panel.feeding {
-	background-color: red;
+	background-color: #dfe6e9;
 }
 
 .main-panel.poop {
-	background-color: brown;
+	background-color: #fab1a0;
 }
 
 .main-panel.pee {
-	background-color: yellow;
+	background-color: #ffeaa7;
 }
