@@ -2,6 +2,7 @@
   "name": "baby-tracker-client",
   "version": "0.1.0",
   "private": true,
+  "author": "Eric Oliveira",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^16.8.3",
