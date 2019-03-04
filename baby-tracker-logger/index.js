@@ -32,8 +32,11 @@ exports.handler = async (event, context, callback) => {
 		console.log('Finished Update. Starting Put...');
 		await DynamoUtils.ddbPut(Item);
 	} catch (err) {
-		console.error('Error when saving data to Dynamo', err);
-		return err;
+		console.error('Error while interacting with Dynamo', err);
+		return {
+			statusCode: 500,
+			err
+		};
 	}
 
 	console.log('Finished all operations');
