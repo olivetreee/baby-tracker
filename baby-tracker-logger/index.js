@@ -15,7 +15,9 @@ const clickToCategory = {
 exports.handler = async (event, context, callback) => {
 	const timestamp = new Date().getTime();
 	const { clickType } = event;
-	const category = clickToCategory[clickType];
+	const category = event.category
+		? event.category
+		: clickToCategory[clickType];
 	const Item = {
 		category,
 		timestamp,
