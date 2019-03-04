@@ -57,6 +57,6 @@ const ddbUpdateLatest = (orgItem) => new Promise((resolve, reject) => {
 
 module.exports = {
 	ddbQueryLatest,
-	ddbUpdate,
+	ddbUpdateLatest,
 	ddbPut
 }
