@@ -1,5 +1,14 @@
 import React from 'react';
 import cs from 'classnames';
+import { sortBy } from 'lodash/fp';
+
+import {
+	hoursToMs,
+	printHoursAndMinutesFromDiff,
+	printHoursAndMinutesFromDate,
+	categories
+} from '../utils';
+import PanelCard from '../PanelCard/PanelCard';
 
 import './MainPanel.css';
 
@@ -71,59 +80,100 @@ class MainPanel extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			data: {}
+			items: []
 		};
 		this.renderNextTime = this.renderNextTime.bind(this);
+		this.renderPast24h = this.renderPast24h.bind(this);
+		this.renderLastTime = this.renderLastTime.bind(this);
+		this.renderIcon = this.renderIcon.bind(this);
 	}
 
 	componentDidMount() {
+		const fromTimestamp = Date.now() - hoursToMs(24);
 		// fetch(
-		// 	`URL.GOES.HERE?category=${this.props.category}`
+		// 	`URL=${this.props.category}&fromTimestamp=${fromTimestamp}`
 		// ).then(async res => {
 		// 	try {
 		// 		const data = await res.json();
-		// 		console.log(res);
-		// 		console.log(data);
+		// 		const sortedData = sortBy('timestamp', data.items);
+		// 		this.setState({ items: sortedData });
 		// 	} catch (err) {
 		// 		throw(err);
 		// 	}
-		// }).catch(err => console.log('@@@err', err));
-		const mockData = {
-			"statusCode": 200,
-			"item": {
-				"category": "feed",
-				"latest": "true",
-				"timestamp": 1551701678568
-			}
-		}
-		this.setState({ data: mockData });
+		// }).catch(err => console.log('Error fetching data:', err));
+		const sortedData = sortBy('timestamp', mockData[this.props.category].items);
+		this.setState({ items: sortedData });
 	}
 
-	renderNextTime() {
-		const { data } = this.state;
-		if (!data.item) {
-			return;
+	renderIcon() {
+		const categoryIconMap = {
+			[categories.feed]: 'wine-bottle',
+			[categories.poop]: 'poo',
+			[categories.pee]: 'tint'
 		}
-		const timestamp = data.item.timestamp;
-		const nextFeeding = timestamp + 3 * 60 * 60 * 1000;
-		const timeDiff = nextFeeding - new Date().getTime();
+		const { category } = this.props;
 		return (
-			<div>
-				{ new Date(timeDiff).getMinutes() } minutes until next feeding.
+			<div className="background-icon">
+				<i className={`fas fa-${categoryIconMap[category]}`}></i>
 			</div>
 		)
 	}
 
-	render() {
-		const item = this.state.data.item;
+	renderNextTime() {
+		const { category } = this.props;
+		const { items } = this.state;
+		if (category !== categories.feed || !items || !items.length) {
+			return;
+		}
+		const timestamp = items[items.length - 1].timestamp;
+		const nextFeeding = timestamp + hoursToMs(3);
+		const timeDiffInMins = Math.ceil((nextFeeding - Date.now())/60000);
 		return (
-			<div className={ cs('main-panel', this.props.category)}>
-				Inside the main panel.
-				{ this.props.category }
-				{
-					item && item.category === 'feed' &&
-					this.renderNextTime()
-				}
+			<PanelCard
+				title="Next feeding in"
+				body={ printHoursAndMinutesFromDiff(timeDiffInMins) } />
+		);
+	}
+
+	renderPast24h() {
+		const { items } = this.state;
+		if (!items) {
+			return;
+		}
+		return (
+			<PanelCard
+				title="Past 24h"
+				body={ items.length } />
+		);
+	}
+
+	renderLastTime() {
+		const { items } = this.state;
+		const { category } = this.props;
+		if (!items || !items.length) {
+			return;
+		}
+		const timestamp = items[items.length - 1].timestamp;
+		return (
+			<PanelCard
+				title={ `Last ${category} at` }
+				body={ printHoursAndMinutesFromDate(timestamp) } />
+		);
+	}
+
+	render() {
+		const { category } = this.props;
+		return (
+			<div className={ cs('main-panel', category)}>
+				<div className="info">
+					{ this.renderIcon() }
+					{ this.renderNextTime() }
+					{ this.renderPast24h() }
+					{ this.renderLastTime() }
+				</div>
+				<div className="log-button">
+					<i className="fas fa-plus-circle"></i>
+				</div>
 			</div>
 		)
 	}
