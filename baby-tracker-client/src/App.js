@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <div className="App">
 				<div className="panels">
-					<MainPanel category="feeding" />
+					<MainPanel category="feed" />
 					<MainPanel category="poop" />
 					<MainPanel category="pee" />
 				</div>
