@@ -9,6 +9,7 @@ import {
 	categories
 } from '../utils';
 import PanelCard from '../PanelCard/PanelCard';
+import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 import './MainPanel.css';
 
@@ -80,7 +81,8 @@ class MainPanel extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			items: []
+			items: [],
+			loading: false
 		};
 		this.renderNextTime = this.renderNextTime.bind(this);
 		this.renderPast24h = this.renderPast24h.bind(this);
@@ -90,17 +92,27 @@ class MainPanel extends React.Component {
 
 	componentDidMount() {
 		const fromTimestamp = Date.now() - hoursToMs(24);
+		this.setState({ loading: true });
 		// fetch(
 		// 	`URL=${this.props.category}&fromTimestamp=${fromTimestamp}`
 		// ).then(async res => {
 		// 	try {
 		// 		const data = await res.json();
 		// 		const sortedData = sortBy('timestamp', data.items);
-		// 		this.setState({ items: sortedData });
+		// 		this.setState({
+		// 			items: sortedData,
+		// 			loading: false
+		// 		});
 		// 	} catch (err) {
 		// 		throw(err);
 		// 	}
-		// }).catch(err => console.log('Error fetching data:', err));
+		// }).catch(err => {
+		// 	this.setState({
+		// 		loading: false
+		// 	});
+		// 	console.log('Error fetching data:', err)
+		// });
+		setTimeout(() => this.setState({ loading: false }), 2000);
 		const sortedData = sortBy('timestamp', mockData[this.props.category].items);
 		this.setState({ items: sortedData });
 	}
@@ -163,17 +175,25 @@ class MainPanel extends React.Component {
 
 	render() {
 		const { category } = this.props;
+		const { loading } = this.state;
+		const content = loading
+			? <LoadingIndicator />
+			: (
+				<React.Fragment>
+					<div className="info">
+						{ this.renderNextTime() }
+						{ this.renderPast24h() }
+						{ this.renderLastTime() }
+					</div>
+					<div className="log-button">
+						<i className="fas fa-plus-circle"></i>
+					</div>
+				</React.Fragment>
+			)
 		return (
 			<div className={ cs('main-panel', category)}>
-				<div className="info">
-					{ this.renderIcon() }
-					{ this.renderNextTime() }
-					{ this.renderPast24h() }
-					{ this.renderLastTime() }
-				</div>
-				<div className="log-button">
-					<i className="fas fa-plus-circle"></i>
-				</div>
+				{ this.renderIcon() }
+				{ content }
 			</div>
 		)
 	}
