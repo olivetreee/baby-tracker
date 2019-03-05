@@ -26,6 +26,28 @@ const ddbQueryLatest = (category) => new Promise((resolve, reject) => {
 	});
 });
 
+const ddbQuery = (category, fromTimestamp, toTimestamp) => new Promise((resolve, reject) => {
+	var params = {
+		TableName,
+		ExpressionAttributeNames: {
+			"#timestamp": 'timestamp'
+		},
+		ExpressionAttributeValues: {
+			':category': category,
+			':fromTimestamp': fromTimestamp,
+			':toTimestamp': toTimestamp
+		},
+		KeyConditionExpression: 'category = :category and #timestamp BETWEEN :fromTimestamp AND :toTimestamp'
+	};
+	dynamodb.query(params, (err, data) => {
+		if (err) {
+			reject(err);
+			return;
+		}
+		resolve(data);
+	});
+});
+
 const ddbPut = Item => new Promise((resolve, reject) => {
 	dynamodb.put({ TableName, Item }, (err, data) => {
 		if (err) {
@@ -56,6 +78,7 @@ const ddbUpdateLatest = (orgItem) => new Promise((resolve, reject) => {
 });
 
 module.exports = {
+	ddbQuery,
 	ddbQueryLatest,
 	ddbUpdateLatest,
 	ddbPut

@@ -11,23 +11,25 @@ const categories = {
 exports.handler = async (event, context, callback) => {
 	let item;
 	try {
-		const category = event.params.querystring.category;
+		const querystring = event.params.querystring;
+		const { category } = querystring;
+		const fromTimestamp = parseInt(querystring.fromTimestamp);
+		const toTimestamp = Date.now();
 		console.log('Starting DDB Query...');
-		const queriedData = await DynamoUtils.ddbQueryLatest(category);
-		item = queriedData.Items[0];
+		const queriedData = await DynamoUtils.ddbQuery(category, fromTimestamp, toTimestamp);
+		items = queriedData.Items;
 		console.log('Finished DDB Query');
 	} catch (err) {
 		console.error('Error while querying Dynamo', err);
 		return {
 			statusCode: 500,
 			event,
-			context,
 			err
 		};
 	}
 
 	return {
 		statusCode: 200,
-		item
+		items
 	};
 };
