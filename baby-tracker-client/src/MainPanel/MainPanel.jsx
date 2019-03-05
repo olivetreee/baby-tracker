@@ -140,6 +140,7 @@ class MainPanel extends React.Component {
 		const timestamp = items[items.length - 1].timestamp;
 		const nextFeeding = timestamp + hoursToMs(3);
 		const timeDiffInMins = Math.ceil((nextFeeding - Date.now())/60000);
+		// TODO render in red if passed
 		return (
 			<PanelCard
 				title="Next feeding in"
