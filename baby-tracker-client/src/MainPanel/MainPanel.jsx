@@ -3,6 +3,70 @@ import cs from 'classnames';
 
 import './MainPanel.css';
 
+const mockData = {
+	feed: {
+		"statusCode": 200,
+		"items": [
+			{
+				"category": "feed",
+				"latest": "true",
+				"timestamp": 1551701678568
+			},
+			{
+				"category": "feed",
+				"latest": "true",
+				"timestamp": 1551701778568
+			},
+			{
+				"category": "feed",
+				"latest": "true",
+				"timestamp": 1551779318358
+			}
+		]
+	},
+	poop: {
+		"statusCode": 200,
+		"items": [
+			{
+				"category": "poop",
+				"latest": "true",
+				"timestamp": 1551701678568
+			},
+			{
+				"category": "poop",
+				"latest": "true",
+				"timestamp": 1551825346566
+			}
+		]
+	},
+	pee: {
+		"statusCode": 200,
+		"items": [
+			{
+				"category": "pee",
+				"latest": "true",
+				"timestamp": 1551701678568
+			},
+			{
+				"category": "pee",
+				"latest": "true",
+				"timestamp": 1551701778568
+			},
+			{
+				"category": "pee",
+				"latest": "true",
+				"timestamp": 1551701978568
+			},
+			{
+				"category": "pee",
+				"latest": "true",
+				"timestamp": 1551702978568
+			}
+		]
+	}
+}
+
+
 class MainPanel extends React.Component {
 	constructor() {
 		super();
