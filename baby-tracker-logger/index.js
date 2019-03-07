@@ -19,16 +19,15 @@ exports.handler = async (event, context, callback) => {
 		: clickToCategory[event.clickType];
 	const Item = {
 		category,
-		timestamp,
-		latest: 'true'
+		timestamp
 	}
 
 	try {
 		console.log('Starting DDB Query...');
-		const queriedData = await DynamoUtils.ddbQueryLatest(category);
-		const curretLatest = queriedData.Items[0];
-		console.log('Finished Query. Starting Update...');
-		await DynamoUtils.ddbUpdateLatest(curretLatest);
+		// const queriedData = await DynamoUtils.ddbQueryLatest(category);
+		// const curretLatest = queriedData.Items[0];
+		// console.log('Finished Query. Starting Update...');
+		// await DynamoUtils.ddbUpdateLatest(curretLatest);
 		console.log('Finished Update. Starting Put...');
 		await DynamoUtils.ddbPut(Item);
 	} catch (err) {
