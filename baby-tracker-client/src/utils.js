@@ -26,3 +26,8 @@ export const categories = {
 	pee: 'pee'
 };
 
+export const expectedQuantities = {
+	[categories.feed]: 8,
+	[categories.poop]: 4,
+	[categories.pee]: 5
+}

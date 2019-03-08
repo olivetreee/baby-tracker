@@ -6,7 +6,8 @@ import {
 	hoursToMs,
 	printHoursAndMinutesFromDiff,
 	printHoursAndMinutesFromDate,
-	categories
+	categories,
+	expectedQuantities
 } from '../utils';
 import PanelCard from '../PanelCard/PanelCard';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
@@ -93,30 +94,30 @@ class MainPanel extends React.Component {
 	componentDidMount() {
 		const fromTimestamp = Date.now() - hoursToMs(24);
 		this.setState({ loading: true });
-		fetch(
-			`https://uwpyc3upak.execute-api.us-west-2.amazonaws.com/v0?category=${this.props.category}&fromTimestamp=${fromTimestamp}`
-		).then(async res => {
-			try {
-				const data = await res.json();
-				const sortedData = sortBy('timestamp', data.items);
-				this.setState({
-					items: sortedData,
-					loading: false
-				});
-			} catch (err) {
-				throw(err);
-			}
-		}).catch(err => {
-			this.setState({
-				loading: false
-			});
-			console.log('Error fetching data:', err)
-		});
-		// const sortedData = sortBy('timestamp', mockData[this.props.category].items);
-		// setTimeout(() => this.setState({
-		// 	loading: false,
-		// 	items: sortedData
-		// }), 2000);
+		// fetch(
+		// 	`https://uwpyc3upak.execute-api.us-west-2.amazonaws.com/v0?category=${this.props.category}&fromTimestamp=${fromTimestamp}`
+		// ).then(async res => {
+		// 	try {
+		// 		const data = await res.json();
+		// 		const sortedData = sortBy('timestamp', data.items);
+		// 		this.setState({
+		// 			items: sortedData,
+		// 			loading: false
+		// 		});
+		// 	} catch (err) {
+		// 		throw(err);
+		// 	}
+		// }).catch(err => {
+		// 	this.setState({
+		// 		loading: false
+		// 	});
+		// 	console.log('Error fetching data:', err)
+		// });
+		const sortedData = sortBy('timestamp', mockData[this.props.category].items);
+		setTimeout(() => this.setState({
+			loading: false,
+			items: sortedData
+		}), 2000);
 	}
 
 	renderIcon() {
@@ -152,13 +153,15 @@ class MainPanel extends React.Component {
 
 	renderPast24h() {
 		const { items } = this.state;
+		const { category } = this.props;
 		if (!items) {
 			return;
 		}
 		return (
 			<PanelCard
 				title="Past 24h"
-				body={ items.length } />
+				body={ items.length }
+				expected={ expectedQuantities[category] } />
 		);
 	}
 
