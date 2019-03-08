@@ -1,21 +1,25 @@
 import history from '../history';
 import auth0 from 'auth0-js';
-import { AUTH_CONFIG } from './auth0-variables';
+import { AUTH_CONFIG, AUTH_DEV_CONFIG } from './auth0-variables';
 
 export default class Auth {
 	accessToken;
 	idToken;
 	expiresAt;
 
-	auth0 = new auth0.WebAuth({
-		domain: AUTH_CONFIG.domain,
-		clientID: AUTH_CONFIG.clientId,
-		redirectUri: AUTH_CONFIG.callbackUrl,
-		responseType: 'token id_token',
-		scope: 'openid'
-	});
-
 	constructor() {
+		const authToUse = window.location.hostname === 'localhost'
+		? AUTH_DEV_CONFIG
+		: AUTH_CONFIG
+
+		this.auth0 = new auth0.WebAuth({
+			domain: authToUse.domain,
+			clientID: authToUse.clientId,
+			redirectUri: authToUse.callbackUrl,
+			responseType: 'token id_token',
+			scope: 'openid'
+		});
+
 		this.login = this.login.bind(this);
 		this.logout = this.logout.bind(this);
 		this.handleAuthentication = this.handleAuthentication.bind(this);
