@@ -94,30 +94,30 @@ class MainPanel extends React.Component {
 	componentDidMount() {
 		const fromTimestamp = Date.now() - hoursToMs(24);
 		this.setState({ loading: true });
-		// fetch(
-		// 	`https://uwpyc3upak.execute-api.us-west-2.amazonaws.com/v0?category=${this.props.category}&fromTimestamp=${fromTimestamp}`
-		// ).then(async res => {
-		// 	try {
-		// 		const data = await res.json();
-		// 		const sortedData = sortBy('timestamp', data.items);
-		// 		this.setState({
-		// 			items: sortedData,
-		// 			loading: false
-		// 		});
-		// 	} catch (err) {
-		// 		throw(err);
-		// 	}
-		// }).catch(err => {
-		// 	this.setState({
-		// 		loading: false
-		// 	});
-		// 	console.log('Error fetching data:', err)
-		// });
-		const sortedData = sortBy('timestamp', mockData[this.props.category].items);
-		setTimeout(() => this.setState({
-			loading: false,
-			items: sortedData
-		}), 2000);
+		fetch(
+			`https://uwpyc3upak.execute-api.us-west-2.amazonaws.com/v0?category=${this.props.category}&fromTimestamp=${fromTimestamp}`
+		).then(async res => {
+			try {
+				const data = await res.json();
+				const sortedData = sortBy('timestamp', data.items);
+				this.setState({
+					items: sortedData,
+					loading: false
+				});
+			} catch (err) {
+				throw(err);
+			}
+		}).catch(err => {
+			this.setState({
+				loading: false
+			});
+			console.log('Error fetching data:', err)
+		});
+		// const sortedData = sortBy('timestamp', mockData[this.props.category].items);
+		// setTimeout(() => this.setState({
+		// 	loading: false,
+		// 	items: sortedData
+		// }), 2000);
 	}
 
 	renderIcon() {
