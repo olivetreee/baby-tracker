@@ -7,9 +7,9 @@ import './App.css';
 class App extends Component {
 	componentDidMount() {
 		const { isAuthenticated } = this.props.auth;
-		// if (!isAuthenticated()) {
-		// 	history.replace('/login');
-		// }
+		if (!isAuthenticated()) {
+			history.replace('/login');
+		}
 	}
   render() {
     return (
