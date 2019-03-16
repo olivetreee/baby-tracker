@@ -8,16 +8,19 @@
 	position: relative;
 }
 
-.main-panel.feeding {
+.main-panel.feed {
 	background-color: #dfe6e9;
+	color: #636e72;
 }
 
 .main-panel.poop {
 	background-color: #fab1a0;
+	color: #83483a;
 }
 
 .main-panel.pee {
 	background-color: #ffeaa7;
+	color: #917a32;
 }
 
 .main-panel .background-icon {
