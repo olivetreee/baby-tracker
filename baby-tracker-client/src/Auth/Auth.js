@@ -56,6 +56,9 @@ export default class Auth {
 	setSession(authResult) {
 		// Set isLoggedIn flag in localStorage
 		localStorage.setItem('isLoggedIn', 'true');
+		const profileSub = authResult.idTokenPayload.sub;
+		// Set profile sub in localStorage
+		localStorage.setItem('profile', profileSub);
 
 		// Set the time that the access token will expire at
 		let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
