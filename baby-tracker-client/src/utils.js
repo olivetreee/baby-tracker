@@ -1,3 +1,21 @@
+export const fetchData = category => {
+	const fromTimestamp = Date.now() - hoursToMs(24);
+	let currentUser;
+	try {
+		currentUser = localStorage.getItem('profile');
+	} catch (err) {
+		throw new Error('Error getting currentUser. Aborting fetch.');
+	}
+	return fetch(
+	`https://uwpyc3upak.execute-api.us-west-2.amazonaws.com/v1?category=${category}&fromTimestamp=${fromTimestamp}`,
+	{
+		method: 'GET',
+		headers: {
+			'x-amzcpt-current-user': currentUser
+		}
+	})
+}
+
 export const hoursToMs = hours => hours * 60 * 60 * 1000;
 
 export const printHoursAndMinutesFromDiff = minutes => {

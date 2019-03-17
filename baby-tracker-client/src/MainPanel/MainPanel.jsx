@@ -3,6 +3,7 @@ import cs from 'classnames';
 import { sortBy } from 'lodash/fp';
 
 import {
+	fetchData,
 	hoursToMs,
 	printHoursAndMinutesFromDiff,
 	printHoursAndMinutesFromDate,
@@ -31,7 +32,7 @@ const mockData = {
 			{
 				"category": "feed",
 				"latest": "true",
-				"timestamp": 1551779318358
+				"timestamp": 1552735553115
 			}
 		]
 	},
@@ -92,27 +93,29 @@ class MainPanel extends React.Component {
 	}
 
 	componentDidMount() {
-		const fromTimestamp = Date.now() - hoursToMs(24);
+		console.log('@@@mounted MainPanel');
 		this.setState({ loading: true });
-		fetch(
-			`https://uwpyc3upak.execute-api.us-west-2.amazonaws.com/v0?category=${this.props.category}&fromTimestamp=${fromTimestamp}`
-		).then(async res => {
-			try {
-				const data = await res.json();
-				const sortedData = sortBy('timestamp', data.items);
+		fetchData(this.props.category)
+			.then(async res => {
+				if (!this.state._isMounted) {
+					return;
+				}
+				try {
+					const data = await res.json();
+					const sortedData = sortBy('timestamp', data.items);
+					this.setState({
+						items: sortedData,
+						loading: false
+					});
+				} catch (err) {
+					throw(err);
+				}
+			}).catch(err => {
 				this.setState({
-					items: sortedData,
 					loading: false
 				});
-			} catch (err) {
-				throw(err);
-			}
-		}).catch(err => {
-			this.setState({
-				loading: false
+				console.log('Error fetching data:', err)
 			});
-			console.log('Error fetching data:', err)
-		});
 		// const sortedData = sortBy('timestamp', mockData[this.props.category].items);
 		// setTimeout(() => this.setState({
 		// 	loading: false,
@@ -143,7 +146,6 @@ class MainPanel extends React.Component {
 		const timestamp = items[items.length - 1].timestamp;
 		const nextFeeding = timestamp + hoursToMs(3);
 		const timeDiffInMins = Math.ceil((nextFeeding - Date.now())/60000);
-		// TODO render in red if passed
 		return (
 			<PanelCard
 				title="Next feeding in"
