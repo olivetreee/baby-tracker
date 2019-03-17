@@ -7,11 +7,13 @@ import './App.css';
 class App extends Component {
 	componentDidMount() {
 		const { isAuthenticated } = this.props.auth;
+		console.log('@@@mounted App', isAuthenticated());
 		if (!isAuthenticated()) {
 			history.replace('/login');
 		}
 	}
   render() {
+		console.log('@@@rendering App');
     return (
       <div className="App">
 				<div className="panels">
