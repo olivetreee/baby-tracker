@@ -2,8 +2,8 @@ import React from 'react';
 import cs from 'classnames';
 import { sortBy } from 'lodash/fp';
 
+import secureFetch from '../fetch';
 import {
-	fetchData,
 	hoursToMs,
 	printHoursAndMinutesFromDiff,
 	printHoursAndMinutesFromDate,
@@ -100,7 +100,7 @@ class MainPanel extends React.Component {
 	componentDidMount() {
 		this._isMounted = true;
 		this.setState({ loading: true });
-		fetchData(this.props.category)
+		secureFetch(this.props.category)
 			.then(async res => {
 				if (!this._isMounted) {
 					return;
