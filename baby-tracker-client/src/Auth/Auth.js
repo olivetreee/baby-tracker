@@ -42,15 +42,20 @@ export default class Auth {
 	}
 
 	handleAuthentication() {
-		this.auth0.parseHash((err, authResult) => {
-			if (authResult && authResult.accessToken && authResult.idToken) {
-				this.setSession(authResult);
-			} else if (err) {
-				history.replace('/app');
-				console.error(err);
-				alert(`Error: ${err.error}. Check the console for further details.`);
-			}
-		});
+		return new Promise((resolve, reject) => {
+			this.auth0.parseHash((err, authResult) => {
+				if (authResult && authResult.accessToken && authResult.idToken) {
+					this.setSession(authResult);
+					return resolve();
+				} else if (err) {
+					history.replace('/app');
+					console.error(err);
+					alert(`Error: ${err.error}. Check the console for further details.`);
+					return reject(err);
+				}
+				return reject();
+			});
+		})
 	}
 
 	getAccessToken() {
