@@ -2,12 +2,18 @@ import history from '../history';
 import auth0 from 'auth0-js';
 import { AUTH_CONFIG, AUTH_DEV_CONFIG } from './auth0-variables';
 
+let authInstance;
+
 export default class Auth {
 	accessToken;
 	idToken;
 	expiresAt;
 
 	constructor() {
+		if (authInstance) {
+			return authInstance;
+		}
+
 		const authToUse = window.location.hostname === 'localhost'
 		? AUTH_DEV_CONFIG
 		: AUTH_CONFIG
@@ -27,6 +33,8 @@ export default class Auth {
 		this.getAccessToken = this.getAccessToken.bind(this);
 		this.getIdToken = this.getIdToken.bind(this);
 		this.renewSession = this.renewSession.bind(this);
+
+		authInstance = this;
 	}
 
 	login() {
