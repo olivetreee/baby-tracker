@@ -4,7 +4,6 @@ import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 class Callback extends Component {
   render() {
-		console.log('@@@rendered callback');
     const style = {
       position: 'absolute',
       display: 'flex',
