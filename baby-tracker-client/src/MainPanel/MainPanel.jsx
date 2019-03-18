@@ -86,18 +86,23 @@ class MainPanel extends React.Component {
 			items: [],
 			loading: false
 		};
+		this._isMounted = false;
 		this.renderNextTime = this.renderNextTime.bind(this);
 		this.renderPast24h = this.renderPast24h.bind(this);
 		this.renderLastTime = this.renderLastTime.bind(this);
 		this.renderIcon = this.renderIcon.bind(this);
 	}
 
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
+
 	componentDidMount() {
-		console.log('@@@mounted MainPanel');
+		this._isMounted = true;
 		this.setState({ loading: true });
 		fetchData(this.props.category)
 			.then(async res => {
-				if (!this.state._isMounted) {
+				if (!this._isMounted) {
 					return;
 				}
 				try {
