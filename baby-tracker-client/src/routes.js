@@ -9,8 +9,14 @@ import history from './history';
 const auth = new Auth();
 
 const handleAuthentication = ({location}) => {
-  if (/access_token|id_token|error/.test(location.hash)) {
-    auth.handleAuthentication();
+	if (/access_token|id_token|error/.test(location.hash)) {
+		auth.handleAuthentication()
+			.catch(err => {
+				if (!auth.isAuthenticated()) {
+					console.error('Auth error:', err);
+					// auth.login();
+				}
+			});
   }
 }
 
