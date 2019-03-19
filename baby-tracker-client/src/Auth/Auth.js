@@ -2,7 +2,6 @@ import history from '../history';
 
 export default class Auth {
 	expiresIn = 24 * 60 * 60;
-	expiresAt;
 
 	constructor() {
 		this.onSingIn = this.onSingIn.bind(this);
@@ -19,8 +18,8 @@ export default class Auth {
 		localStorage.setItem('isLoggedIn', 'true');
 
 		// Set the time that the access token will expire at
-		this.expiresAt = (this.expiresIn * 1000) + new Date().getTime();
-		localStorage.setItem('expiresAt', this.expiresAt);
+		const expiresAt = (this.expiresIn * 1000) + new Date().getTime();
+		localStorage.setItem('expiresAt', expiresAt);
 
 		// navigate to the home route
 		history.replace('/app');
@@ -43,6 +42,7 @@ export default class Auth {
 		// Check whether the current time is past the
 		// access token's expiry time
 		const isLoggedIn = localStorage.getItem('isLoggedIn');
-		return isLoggedIn && new Date().getTime() < this.expiresAt;
+		const expiresAt = localStorage.getItem('expiresAt');
+		return isLoggedIn && new Date().getTime() < expiresAt;
 	}
 }

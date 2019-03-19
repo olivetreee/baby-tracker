@@ -16,7 +16,7 @@ class Login extends Component {
 			'height': 50,
 			'longtitle': false,
 			'theme': 'dark',
-			'onsuccess': auth.onSingIn.bind(this)
+			'onsuccess': auth.onSingIn
 		});
 	}
 
