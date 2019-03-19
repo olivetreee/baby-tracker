@@ -87,7 +87,7 @@ class MainPanel extends React.Component {
 			loading: false
 		};
 		this._isMounted = false;
-		this.renderNextTime = this.renderNextTime.bind(this);
+		this.renderNextPeriod = this.renderNextPeriod.bind(this);
 		this.renderPast24h = this.renderPast24h.bind(this);
 		this.renderLastTime = this.renderLastTime.bind(this);
 		this.renderIcon = this.renderIcon.bind(this);
@@ -142,18 +142,18 @@ class MainPanel extends React.Component {
 		)
 	}
 
-	renderNextTime() {
+	renderNextPeriod() {
 		const { category } = this.props;
 		const { items } = this.state;
 		if (category !== categories.feed || !items || !items.length) {
 			return;
 		}
 		const timestamp = items[items.length - 1].timestamp;
-		const nextFeeding = timestamp + hoursToMs(3);
-		const timeDiffInMins = Math.ceil((nextFeeding - Date.now())/60000);
+		const lastFeedingPeriod = timestamp + hoursToMs(3);
+		const timeDiffInMins = Math.ceil((lastFeedingPeriod - Date.now())/60000);
 		return (
 			<PanelCard
-				title="Next feeding in"
+				title="Since last feeding"
 				body={ printHoursAndMinutesFromDiff(timeDiffInMins) } />
 		);
 	}
@@ -194,7 +194,7 @@ class MainPanel extends React.Component {
 			: (
 				<React.Fragment>
 					<div className="info">
-						{ this.renderNextTime() }
+						{ this.renderNextPeriod() }
 						{ this.renderPast24h() }
 						{ this.renderLastTime() }
 					</div>
