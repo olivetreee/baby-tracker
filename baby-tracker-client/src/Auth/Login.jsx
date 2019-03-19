@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './Login.css';
+
 class Login extends Component {
 	componentDidMount() {
 		const { auth } = this.props;
@@ -12,7 +14,7 @@ class Login extends Component {
 			'scope': 'https://www.googleapis.com/auth/plus.login',
 			'width': 200,
 			'height': 50,
-			'longtitle': true,
+			'longtitle': false,
 			'theme': 'dark',
 			'onsuccess': auth.onSingIn.bind(this)
 		});
@@ -20,7 +22,9 @@ class Login extends Component {
 
 	render() {
 		return (
-			<div id="g-signin2"></div>
+			<div className="login">
+				<div id="g-signin2"></div>
+			</div>
 		);
 	}
 }
