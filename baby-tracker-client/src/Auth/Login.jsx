@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 
 class Login extends Component {
-  goTo(route) {
-    this.props.history.replace(`/${route}`)
-  }
+	goTo(route) {
+		this.props.history.replace(`/${route}`)
+	}
 
-  login() {
-    this.props.auth.login();
-  }
+	login() {
+		this.props.auth.login();
+	}
 
-  logout() {
-    this.props.auth.logout();
-  }
+	logout() {
+		this.props.auth.logout();
+	}
 
-  componentDidMount() {
-    // const { renewSession } = this.props.auth;
+	componentDidMount() {
+		// const { renewSession } = this.props.auth;
 
-    if (localStorage.getItem('isLoggedIn') === 'true') {
+		if (localStorage.getItem('isLoggedIn') === 'true') {
 			// renewSession();
 			this.props.history.replace('/app');
 			return;
@@ -38,11 +38,11 @@ class Login extends Component {
 		this.props.history.replace('/app');
 	}
 
-  render() {
+	render() {
 		return (
 			<div id="g-signin2"></div>
 		);
-  }
+	}
 }
 
 export default Login;
