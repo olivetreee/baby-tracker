@@ -23,7 +23,9 @@ export const printHoursAndMinutesFromDiff = minutes => {
 		return `${minutes} m`;
 	}
 	const hours = Math.floor(minutes / 60);
-	const remainingMinutes = minutes % 60
+	const remainingMinutes = minutes % 60 < 10
+		? `0${minutes % 60}`
+		: minutes % 60;
 	return `${hours}:${remainingMinutes} h`;
 }
 
