@@ -14,18 +14,30 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const { renewSession } = this.props.auth;
+    // const { renewSession } = this.props.auth;
 
     if (localStorage.getItem('isLoggedIn') === 'true') {
-			renewSession();
+			// renewSession();
+			this.props.history.replace('/app');
 			return;
 		}
-		this.login.call(this);
-  }
+		window.gapi.signin2.render('g-signin2', {
+			'scope': 'https://www.googleapis.com/auth/plus.login',
+			'width': 200,
+			'height': 50,
+			'longtitle': true,
+			'theme': 'dark',
+			'onsuccess': this.onSignIn
+		});
+	}
+
+	onSignIn(user) {
+		console.log('@@@', user.getBasicProfile().getId());
+	}
 
   render() {
 		return (
-			<div></div>
+			<div id="g-signin2"></div>
 		);
   }
 }
