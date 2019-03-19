@@ -2,25 +2,20 @@ import React, { Component } from 'react';
 
 class Login extends Component {
 	componentDidMount() {
-		if (localStorage.getItem('isLoggedIn') === 'true') {
+		const { auth } = this.props;
+		if (auth.isAuthenticated()) {
 			this.props.history.replace('/app');
 			return;
 		}
+
 		window.gapi.signin2.render('g-signin2', {
 			'scope': 'https://www.googleapis.com/auth/plus.login',
 			'width': 200,
 			'height': 50,
 			'longtitle': true,
 			'theme': 'dark',
-			'onsuccess': this.onSignIn.bind(this)
+			'onsuccess': auth.onSingIn.bind(this)
 		});
-	}
-
-	onSignIn(user) {
-		const userId = user.getBasicProfile().getId();
-		localStorage.setItem('profile', `google-oauth2|${userId}`);
-		localStorage.setItem('isLoggedIn', 'true');
-		this.props.history.replace('/app');
 	}
 
 	render() {
