@@ -28,7 +28,7 @@ export const fetchData = (
 
 export const secureFetch = (category, fromTimestamp) => {
 	if (!auth.isAuthenticated()) {
-		history.replace('/login');
+		history.replace('/');
 		return Promise.resolve();
 	}
 	return fetchData(category, fromTimestamp);
