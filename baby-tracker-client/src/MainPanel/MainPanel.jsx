@@ -4,13 +4,13 @@ import { sortBy } from 'lodash/fp';
 
 import secureFetch from '../fetch';
 import {
-	hoursToMs,
 	printHoursAndMinutesFromDiff,
 	printHoursAndMinutesFromDate,
 	categories,
 	expectedQuantities
 } from '../utils';
 import PanelCard from '../PanelCard/PanelCard';
+import AddButton from '../AddButton/AddButton';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 import './MainPanel.css';
@@ -197,9 +197,7 @@ class MainPanel extends React.Component {
 						{ this.renderPast24h() }
 						{ this.renderLastTime() }
 					</div>
-					<div className="log-button">
-						<i className="fas fa-plus-circle"></i>
-					</div>
+					<AddButton category={ category } />
 				</React.Fragment>
 			)
 		return (
