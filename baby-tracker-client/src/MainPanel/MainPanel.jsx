@@ -149,8 +149,7 @@ class MainPanel extends React.Component {
 			return;
 		}
 		const timestamp = items[items.length - 1].timestamp;
-		const lastFeedingPeriod = timestamp + hoursToMs(3);
-		const timeDiffInMins = Math.ceil((lastFeedingPeriod - Date.now())/60000);
+		const timeDiffInMins = Math.ceil((Date.now() - timestamp)/60000);
 		return (
 			<PanelCard
 				title="Since last feeding"
