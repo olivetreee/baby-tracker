@@ -27,12 +27,15 @@ class Login extends Component {
 			'height': 50,
 			'longtitle': true,
 			'theme': 'dark',
-			'onsuccess': this.onSignIn
+			'onsuccess': this.onSignIn.bind(this)
 		});
 	}
 
 	onSignIn(user) {
-		console.log('@@@', user.getBasicProfile().getId());
+		const userId = user.getBasicProfile().getId();
+		localStorage.setItem('profile', `google-oauth2|${userId}`);
+		localStorage.setItem('isLoggedIn', 'true');
+		this.props.history.replace('/app');
 	}
 
   render() {
