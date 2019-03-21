@@ -66,9 +66,11 @@ class AddButton extends React.Component {
 			iconToUse = <i className="fas fa-times-circle"></i>
 		}
 		return (
-			<div className="log-button">
+			<button
+				onClick={ this.logCategory }
+				className="log-button" >
 				{ iconToUse }
-			</div>
+			</button>
 		)
 	}
 }
