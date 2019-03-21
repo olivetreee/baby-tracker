@@ -7,7 +7,8 @@ import {
 	printHoursAndMinutesFromDiff,
 	printHoursAndMinutesFromDate,
 	categories,
-	expectedQuantities
+	expectedQuantities,
+	hoursToMs
 } from '../utils';
 import PanelCard from '../PanelCard/PanelCard';
 import AddButton from '../AddButton/AddButton';
@@ -32,7 +33,7 @@ const mockData = {
 			{
 				"category": "feed",
 				"latest": "true",
-				"timestamp": 1552735553115
+				"timestamp": Date.now() - 3600000
 			}
 		]
 	},
@@ -100,7 +101,9 @@ class MainPanel extends React.Component {
 	componentDidMount() {
 		this._isMounted = true;
 		this.setState({ loading: true });
-		secureFetch(this.props.category)
+		const fromTimestamp = Date.now() - hoursToMs(24);
+		const querystring = `category=${this.props.category}&fromTimestamp=${fromTimestamp}`
+		secureFetch({querystring})
 			.then(async res => {
 				if (!this._isMounted) {
 					return;
