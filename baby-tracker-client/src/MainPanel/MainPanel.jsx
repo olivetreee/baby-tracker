@@ -4,13 +4,14 @@ import { sortBy } from 'lodash/fp';
 
 import secureFetch from '../fetch';
 import {
-	hoursToMs,
 	printHoursAndMinutesFromDiff,
 	printHoursAndMinutesFromDate,
 	categories,
-	expectedQuantities
+	expectedQuantities,
+	hoursToMs
 } from '../utils';
 import PanelCard from '../PanelCard/PanelCard';
+import AddButton from '../AddButton/AddButton';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 import './MainPanel.css';
@@ -32,7 +33,7 @@ const mockData = {
 			{
 				"category": "feed",
 				"latest": "true",
-				"timestamp": 1552735553115
+				"timestamp": Date.now() - 3600000
 			}
 		]
 	},
@@ -100,7 +101,9 @@ class MainPanel extends React.Component {
 	componentDidMount() {
 		this._isMounted = true;
 		this.setState({ loading: true });
-		secureFetch(this.props.category)
+		const fromTimestamp = Date.now() - hoursToMs(24);
+		const querystring = `category=${this.props.category}&fromTimestamp=${fromTimestamp}`
+		secureFetch({querystring})
 			.then(async res => {
 				if (!this._isMounted) {
 					return;
@@ -197,9 +200,7 @@ class MainPanel extends React.Component {
 						{ this.renderPast24h() }
 						{ this.renderLastTime() }
 					</div>
-					<div className="log-button">
-						<i className="fas fa-plus-circle"></i>
-					</div>
+					<AddButton category={ category } />
 				</React.Fragment>
 			)
 		return (

@@ -36,13 +36,3 @@
 	flex-grow: 1;
 	margin: 0 20px;
 }
-
-.main-panel .log-button {
-	font-size: 50px;
-	opacity: 0.5;
-	border: solid 2px;
-	line-height: 0;
-	border-radius: 10px;
-	padding: 5px;
-	margin-right: 20px;
-}
