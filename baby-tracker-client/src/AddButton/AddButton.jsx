@@ -50,7 +50,6 @@ class AddButton extends React.Component {
 	}
 
 	logCategory(timestamp) {
-		console.log('TIME:', timestamp);
 		const { category } = this.props;
 		const body = {
 			category,
