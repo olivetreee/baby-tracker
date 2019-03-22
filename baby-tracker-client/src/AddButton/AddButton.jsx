@@ -1,5 +1,6 @@
 import React from 'react';
 import secureFetch from '../fetch';
+import TimePicker from '../TimePicker/TimePicker';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 import './AddButton.css';
@@ -9,10 +10,12 @@ class AddButton extends React.Component {
 		super();
 		this.logCategory = this.logCategory.bind(this);
 		this.handleResponse = this.handleResponse.bind(this);
+		this.openTimePicker = this.openTimePicker.bind(this);
 		this.state = {
 			loading: false,
 			success: false,
-			error: false
+			error: false,
+			time: 0
 		}
 		this._isMounted = false;
 	}
@@ -36,14 +39,22 @@ class AddButton extends React.Component {
 			}
 			this.setState({ success: false, error: false })
 		}, 3000);
-
 	}
 
-	logCategory() {
+	openTimePicker() {
+		const { category } = this.props;
+		// document.getElementById('log-button').blur();
+		// document.getElementById(`${category}-time-picker`).focus().click();
+		document.getElementById(`${category}-time-picker`).focus();
+		document.getElementById(`${category}-time-picker`).click();
+	}
+
+	logCategory(timestamp) {
+		console.log('TIME:', timestamp);
 		const { category } = this.props;
 		const body = {
 			category,
-			timestamp: Date.now()
+			timestamp
 		}
 		this.setState({ loading: true });
 		secureFetch({ method: 'POST', body })
@@ -65,12 +76,21 @@ class AddButton extends React.Component {
 		} else if (this.state.error) {
 			iconToUse = <i className="fas fa-times-circle"></i>
 		}
+
+		const timePicker = <input id={ `${this.props.category}-time-picker` } className="time-picker" type="time" />;
+		window.tp = timePicker;
 		return (
-			<button
-				onClick={ this.logCategory }
-				className="log-button" >
-				{ iconToUse }
-			</button>
+			<div>
+				<TimePicker
+					category={ this.props.category }
+					onSelect={ this.logCategory } />
+				<button
+					className="log-button"
+					id="log-button"
+					onClick={ this.openTimePicker } >
+					{ iconToUse }
+				</button>
+			</div>
 		)
 	}
 }
