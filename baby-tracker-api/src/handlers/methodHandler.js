@@ -12,6 +12,18 @@ const methods = {
 		items = queriedData.Items;
 		console.log('Finished DDB Query');
 		return items;
+	},
+	'POST': async event => {
+		const body = JSON.parse(event.body);
+		const { category, timestamp } = body;
+		const Item = {
+			category,
+			timestamp
+		};
+		console.log('Starting DDB Put...');
+		await DynamoUtils.ddbPut(Item);
+		console.log('Finished DDB Put');
+		return;
 	}
 }
 
@@ -19,7 +31,7 @@ const methodHandler = async event => {
 	const method = event.httpMethod;
 	let response;
 	try {
-		const data = await methods[method](event);
+		const data = await methods[method](event) || {};
 		response = makeStandardResponse(200, data);
 	} catch (err) {
 		response = makeStandardResponse(500, err);
