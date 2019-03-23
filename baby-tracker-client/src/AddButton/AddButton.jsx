@@ -43,8 +43,6 @@ class AddButton extends React.Component {
 
 	openTimePicker() {
 		const { category } = this.props;
-		// document.getElementById('log-button').blur();
-		// document.getElementById(`${category}-time-picker`).focus().click();
 		document.getElementById(`${category}-time-picker`).focus();
 		document.getElementById(`${category}-time-picker`).click();
 	}
