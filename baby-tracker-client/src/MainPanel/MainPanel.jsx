@@ -110,7 +110,7 @@ class MainPanel extends React.Component {
 				}
 				try {
 					const data = await res.json();
-					const sortedData = sortBy('timestamp', data.items);
+					const sortedData = sortBy('timestamp', data);
 					this.setState({
 						items: sortedData,
 						loading: false

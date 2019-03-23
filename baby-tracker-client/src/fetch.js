@@ -3,12 +3,12 @@ import history from './history';
 
 const auth = new Auth();
 
-const baseUrl = 'https://uwpyc3upak.execute-api.us-west-2.amazonaws.com/v1';
+const baseUrl = 'https://uwpyc3upak.execute-api.us-west-2.amazonaws.com/v2';
 
 export const fetchData = ({
 	querystring = '',
 	method = 'GET',
-	body = {}
+	body
 }) => {
 	let currentUser;
 	try {
@@ -23,7 +23,7 @@ export const fetchData = ({
 		headers: {
 			'x-amzcpt-current-user': currentUser
 		},
-		body: JSON.stringify(body)
+		body: body && JSON.stringify(body)
 	})
 }
 
