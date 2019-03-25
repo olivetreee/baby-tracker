@@ -22,6 +22,7 @@ const ddbQuery = (category, fromTimestamp, toTimestamp) => new Promise((resolve,
 	};
 	dynamodb.query(params, (err, data) => {
 		if (err) {
+			console.log('Error querying Dynamo:', err);
 			reject(err);
 			return;
 		}
@@ -32,6 +33,18 @@ const ddbQuery = (category, fromTimestamp, toTimestamp) => new Promise((resolve,
 const ddbPut = Item => new Promise((resolve, reject) => {
 	dynamodb.put({ TableName, Item }, (err, data) => {
 		if (err) {
+			console.log('Error putting item into Dynamo:', err);
+			reject(err);
+			return;
+		}
+		resolve(data);
+	});
+});
+
+const ddbDelete = item => new Promise((resolve, reject) => {
+	dynamodb.delete({ TableName, Key: item }, (err, data) => {
+		if (err) {
+			console.log('Error deleting from Dynamo:', err);
 			reject(err);
 			return;
 		}
@@ -61,5 +74,6 @@ const ddbUpdateLatest = (orgItem) => new Promise((resolve, reject) => {
 module.exports = {
 	ddbQuery,
 	ddbUpdateLatest,
-	ddbPut
+	ddbPut,
+	ddbDelete
 }

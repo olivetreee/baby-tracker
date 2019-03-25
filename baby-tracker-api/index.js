@@ -4,7 +4,7 @@ const methodHandler = require('./src/handlers/methodHandler');
 
 exports.handler = async (event, context, callback) => {
 	let response;
-	console.log('@@@event', event);
+	console.log('Incoming event:', event);
 
 	try {
 		if (event.clickType) {

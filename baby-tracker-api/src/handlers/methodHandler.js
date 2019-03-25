@@ -24,6 +24,13 @@ const methods = {
 		await DynamoUtils.ddbPut(Item);
 		console.log('Finished DDB Put');
 		return;
+	},
+	'DELETE': async event => {
+		const body = JSON.parse(event.body);
+		console.log('Starting DDB Delete...');
+		await DynamoUtils.ddbDelete(body);
+		console.log('Finished DDB Delete');
+		return;
 	}
 }
 
