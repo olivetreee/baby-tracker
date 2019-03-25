@@ -1,16 +1,15 @@
 import React from 'react';
 import secureFetch from '../fetch';
-import TimePicker from '../TimePicker/TimePicker';
+import { printHoursAndMinutesFromDate } from '../utils';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
-import './AddButton.css';
+import './RemoveButton.css';
 
-class AddButton extends React.Component {
+class RemoveButton extends React.Component {
 	constructor() {
 		super();
-		this.logCategory = this.logCategory.bind(this);
 		this.handleResponse = this.handleResponse.bind(this);
-		this.openTimePicker = this.openTimePicker.bind(this);
+		this.removeItem = this.removeItem.bind(this);
 		this.state = {
 			loading: false,
 			success: false,
@@ -41,22 +40,17 @@ class AddButton extends React.Component {
 		}, 3000);
 	}
 
-	openTimePicker() {
-		const { category } = this.props;
-		document.getElementById(`${category}-time-picker`).focus();
-		document.getElementById(`${category}-time-picker`).click();
-	}
-
-	logCategory(timestamp) {
-		const { category } = this.props;
-		const body = {
-			category,
-			timestamp
+	removeItem() {
+		const { item } = this.props;
+		const choice = window.confirm(`Remove ${item.category} at ${printHoursAndMinutesFromDate(item.timestamp)}?`);
+		if (!choice) {
+			return;
 		}
+		const body = { ...item };
 		this.setState({ loading: true });
-		secureFetch({ method: 'POST', body })
+		secureFetch({ method: 'DELETE', body })
 			.then(() => {
-				this.props.onAdd(body);
+				this.props.onRemove();
 				this.handleResponse(true, false);
 			})
 			.catch(() => this.handleResponse(false, true))
@@ -65,12 +59,12 @@ class AddButton extends React.Component {
 	render() {
 		if (this.state.loading) {
 			return (
-				<div className="log-button">
+				<div className="remove-button">
 					<LoadingIndicator />
 				</div>
 			)
 		}
-		let iconToUse = <i className="fas fa-plus-circle"></i>;
+		let iconToUse = <i className="fas fa-minus-circle"></i>;
 		if (this.state.success) {
 			iconToUse = <i className="fas fa-check-circle"></i>
 		} else if (this.state.error) {
@@ -79,13 +73,10 @@ class AddButton extends React.Component {
 
 		return (
 			<div>
-				<TimePicker
-					category={ this.props.category }
-					onSelect={ this.logCategory } />
 				<button
-					className="log-button"
-					id="log-button"
-					onClick={ this.openTimePicker } >
+					className="remove-button"
+					id="remove-button"
+					onClick={ this.removeItem } >
 					{ iconToUse }
 				</button>
 			</div>
@@ -93,4 +84,4 @@ class AddButton extends React.Component {
 	}
 }
 
-export default AddButton;
+export default RemoveButton;

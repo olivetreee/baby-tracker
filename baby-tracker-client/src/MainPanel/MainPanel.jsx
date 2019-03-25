@@ -12,6 +12,7 @@ import {
 } from '../utils';
 import PanelCard from '../PanelCard/PanelCard';
 import AddButton from '../AddButton/AddButton';
+import RemoveButton from '../RemoveButton/RemoveButton';
 import LoadingIndicator from '../LoadingIndicator/LoadingIndicator';
 
 import './MainPanel.css';
@@ -22,17 +23,14 @@ const mockData = {
 		"items": [
 			{
 				"category": "feed",
-				"latest": "true",
 				"timestamp": 1551701678568
 			},
 			{
 				"category": "feed",
-				"latest": "true",
 				"timestamp": 1551701778568
 			},
 			{
 				"category": "feed",
-				"latest": "true",
 				"timestamp": Date.now() - 3600000
 			}
 		]
@@ -42,12 +40,10 @@ const mockData = {
 		"items": [
 			{
 				"category": "poop",
-				"latest": "true",
 				"timestamp": 1551701678568
 			},
 			{
 				"category": "poop",
-				"latest": "true",
 				"timestamp": 1552032515660
 			}
 		]
@@ -57,22 +53,18 @@ const mockData = {
 		"items": [
 			{
 				"category": "pee",
-				"latest": "true",
 				"timestamp": 1551701678568
 			},
 			{
 				"category": "pee",
-				"latest": "true",
 				"timestamp": 1551701778568
 			},
 			{
 				"category": "pee",
-				"latest": "true",
 				"timestamp": 1551701978568
 			},
 			{
 				"category": "pee",
-				"latest": "true",
 				"timestamp": 1551702978568
 			}
 		]
@@ -212,6 +204,10 @@ class MainPanel extends React.Component {
 					</div>
 					<div className="buttons">
 						<AddButton category={ category } onAdd={ this.onAdd } />
+						<RemoveButton
+							item={ this.state.items[this.state.items.length - 1] }
+							onRemove={ this.onRemove }
+						/>
 					</div>
 				</React.Fragment>
 			)
