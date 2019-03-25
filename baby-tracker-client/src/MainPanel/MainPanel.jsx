@@ -92,6 +92,8 @@ class MainPanel extends React.Component {
 		this.renderPast24h = this.renderPast24h.bind(this);
 		this.renderLastTime = this.renderLastTime.bind(this);
 		this.renderIcon = this.renderIcon.bind(this);
+		this.onAdd = this.onAdd.bind(this);
+		this.onRemove = this.onRemove.bind(this);
 	}
 
 	componentWillUnmount() {
@@ -129,6 +131,14 @@ class MainPanel extends React.Component {
 		// 	loading: false,
 		// 	items: sortedData
 		// }), 2000);
+	}
+
+	onAdd(item) {
+		this.setState(prevState => ({ items: prevState.items.concat([item]) }));
+	}
+
+	onRemove() {
+		this.setState(prevState => ({ items: prevState.items.slice(0, prevState.items.length - 1) }));
 	}
 
 	renderIcon() {
@@ -200,7 +210,9 @@ class MainPanel extends React.Component {
 						{ this.renderPast24h() }
 						{ this.renderLastTime() }
 					</div>
-					<AddButton category={ category } />
+					<div className="buttons">
+						<AddButton category={ category } onAdd={ this.onAdd } />
+					</div>
 				</React.Fragment>
 			)
 		return (

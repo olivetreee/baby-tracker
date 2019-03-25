@@ -55,7 +55,10 @@ class AddButton extends React.Component {
 		}
 		this.setState({ loading: true });
 		secureFetch({ method: 'POST', body })
-			.then(() => this.handleResponse(true, false))
+			.then(() => {
+				this.props.onAdd(body);
+				this.handleResponse(true, false);
+			})
 			.catch(() => this.handleResponse(false, true))
 	}
 
@@ -75,7 +78,6 @@ class AddButton extends React.Component {
 		}
 
 		const timePicker = <input id={ `${this.props.category}-time-picker` } className="time-picker" type="time" />;
-		window.tp = timePicker;
 		return (
 			<div>
 				<TimePicker
