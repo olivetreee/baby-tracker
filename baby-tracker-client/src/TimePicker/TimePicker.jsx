@@ -16,10 +16,7 @@ const TimePicker = ({
 	const handleInput = evt => {
 		evt.preventDefault();
 		const selected = evt.target.value;
-		const [h, m] = selected.split(':');
-		hhmm = `${h}:${m}`;
-		const now = new Date();
-		const newDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+		const newDate = new Date(selected);
 		setDate(newDate);
 
 		if (navigator.appVersion.includes('iPhone') || !navigator.appVersion.includes('Chrome')) {
@@ -39,7 +36,7 @@ const TimePicker = ({
 	return (
 		<input
 			id={ `${category}-time-picker` }
-			type="time"
+			type="datetime-local"
 			className="time-picker"
 			onBlur={ handleBlur }
 			onInput={ handleInput }
