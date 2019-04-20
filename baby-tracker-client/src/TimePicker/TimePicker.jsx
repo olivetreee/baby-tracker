@@ -30,7 +30,10 @@ const TimePicker = ({
 		if (navigator.appVersion.includes('Android')) {
 			return;
 		}
-		onSelect(date.getTime());
+		// on iPhone, datetime-local input selects a UTC time, so we need to add the
+		// timezone offset to that value
+		const newDateTimestamp = date.getTime() + date.getTimezoneOffset()*60*1000
+		onSelect(newDateTimestamp);
 	}
 
 	return (
