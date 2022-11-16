@@ -5,6 +5,7 @@
   "author": "Eric Oliveira",
   "dependencies": {
     "classnames": "^2.2.6",
+    "jose": "^4.11.0",
     "lodash": "^4.17.11",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",

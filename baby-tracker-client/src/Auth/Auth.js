@@ -1,19 +1,20 @@
+import { decodeJwt } from "jose";
 import history from '../history';
 
 export default class Auth {
 	expiresIn = 24 * 60 * 60;
 
 	constructor() {
-		this.onSingIn = this.onSingIn.bind(this);
+		this.onSignIn = this.onSignIn.bind(this);
 		this.logout = this.logout.bind(this);
 		this.isAuthenticated = this.isAuthenticated.bind(this);
 	}
 
-	onSingIn(user) {
-		const userId = user.getBasicProfile().getId();
+	onSignIn(data) {
+		const decodedToken = decodeJwt(data.credential);
 
 		// Set profile sub in localStorage
-		localStorage.setItem('profile', `google-oauth2|${userId}`);
+		localStorage.setItem('profile', `google-oauth2|${decodedToken.sub}`);
 		// Set isLoggedIn flag in localStorage
 		localStorage.setItem('isLoggedIn', 'true');
 
