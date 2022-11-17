@@ -7,7 +7,6 @@ const TimePicker = ({
 	onSelect
 }) => {
 	const [date, setDate] = useState(new Date());
-	let hhmm = `${date.getHours()}:${date.getMinutes()}`;
 
 	// this is dumb, but apparently needed:
 	// Android: onChange fires when you click done, not every time you change the thing;
@@ -30,10 +29,7 @@ const TimePicker = ({
 		if (navigator.appVersion.includes('Android')) {
 			return;
 		}
-		// on iPhone, datetime-local input selects a UTC time, so we need to add the
-		// timezone offset to that value
-		const newDateTimestamp = date.getTime() + date.getTimezoneOffset()*60*1000
-		onSelect(newDateTimestamp);
+		onSelect(date.getTime());
 	}
 
 	return (
@@ -42,8 +38,7 @@ const TimePicker = ({
 			type="datetime-local"
 			className="time-picker"
 			onBlur={ handleBlur }
-			onInput={ handleInput }
-			value={ hhmm } />
+			onInput={ handleInput } />
 	);
 }
 
