@@ -46,4 +46,5 @@ export default class Auth {
 		const expiresAt = localStorage.getItem('expiresAt');
 		return isLoggedIn && new Date().getTime() < expiresAt;
 	}
+
 }

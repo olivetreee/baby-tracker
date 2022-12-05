@@ -10,7 +10,7 @@ const App = () => (
 			<MainPanel category="poop" />
 			<MainPanel category="pee" />
 		</div>
-		<NavBar />
+		{/* <NavBar /> */}
 	</div>
 );
 
